@@ -37,7 +37,7 @@ public class ClientBrand extends PacketCheck {
                     brand = new String(minusLength).replace(" (Velocity)", ""); //removes velocity's brand suffix
                     if (player.checkManager.getPrePredictionCheck(ExploitA.class).checkString(brand)) brand = "sent log4j";
                     if (!GrimAPI.INSTANCE.getConfigManager().isIgnoredClient(brand)) {
-                        String message = GrimAPI.INSTANCE.getConfigManager().getConfig().getStringElse("client-brand-format", "%prefix% &f%player% joined using %brand%");
+                        String message = GrimAPI.INSTANCE.getConfigManager().getConfig().getStringElse("client-brand-format", "%prefix% %displayName% joined using %brand%");
                         message = GrimAPI.INSTANCE.getExternalAPI().replaceVariables(getPlayer(), message, true);
                         // sendMessage is async safe while broadcast isn't due to adventure
                         for (Player player : Bukkit.getOnlinePlayers()) {

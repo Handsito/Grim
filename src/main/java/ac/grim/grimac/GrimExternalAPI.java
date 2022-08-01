@@ -71,6 +71,10 @@ public class GrimExternalAPI implements GrimAbstractAPI, Initable {
 
     @Override
     public void start() {
+        variableReplacements.put("%displayName%", grimUser -> {
+            Player player = ((GrimPlayer) grimUser).bukkitPlayer;
+            return player == null ? grimUser.getName() : player.getDisplayName();
+        });
         variableReplacements.put("%player%", GrimUser::getName);
         variableReplacements.put("%uuid%", user -> user.getUniqueId().toString());
         variableReplacements.put("%ping%", user -> user.getTransactionPing() + "");

@@ -136,7 +136,7 @@ public class PunishmentManager {
                             if (executeEvent.isCancelled()) continue;
 
                             if (command.command.equals("[ban]")) {
-                                manager.callEvent(new PlayerCaughtCheatingEvent(player.bukkitPlayer));
+                                manager.callEvent(new PlayerCaughtCheatingEvent(player.bukkitPlayer, (int) check.getViolations(), player.getClientVersion().getProtocolVersion(), check.getCheckName(),  player.getBrand()));
                                 continue;
                             }
 
