@@ -7,11 +7,12 @@ import ac.grim.grimac.player.GrimPlayer;
 import ac.grim.grimac.utils.anticheat.LogUtil;
 import ac.grim.grimac.utils.anticheat.MessageUtil;
 import github.scarsz.configuralize.DynamicConfig;
+import live.ghostly.nightmare.event.PlayerCaughtCheatingEvent;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.PluginManager;
 
 import java.util.*;
 
@@ -129,9 +130,15 @@ public class PunishmentManager {
                         // Any other number means execute every X interval
                         boolean inInterval = command.getInterval() == 0 ? (command.executeCount == 0) : (violationCount % command.getInterval() == 0);
                         if (inInterval) {
+                            PluginManager manager = Bukkit.getPluginManager();
                             CommandExecuteEvent executeEvent = new CommandExecuteEvent(player, check, cmd);
-                            Bukkit.getPluginManager().callEvent(executeEvent);
+                            manager.callEvent(executeEvent);
                             if (executeEvent.isCancelled()) continue;
+
+                            if (command.command.equals("[ban]")) {
+                                manager.callEvent(new PlayerCaughtCheatingEvent(player.bukkitPlayer));
+                                continue;
+                            }
 
                             if (command.command.equals("[webhook]")) {
                                 String vl = group.violations.values().stream().filter((e) -> e == check).count() + "";
